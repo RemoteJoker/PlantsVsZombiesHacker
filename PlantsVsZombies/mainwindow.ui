@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="FunBtn_00">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>无限阳光</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="FunBtn_01">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>卡槽冷却</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="FunBtn_02">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>智慧树</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="FunBtn_03">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>无限金币</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="FunBtn_04">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>秒杀博士</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="FunBtn_05">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>210</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>全屏轰炸</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="FunBtn_06">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>250</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>植物无敌</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="FunBtn_07">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>290</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>僵尸无敌</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="FunBtn_08">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>330</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font:20px;
+font-family:songti;</string>
+    </property>
+    <property name="text">
+     <string>罐子透视</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="GroupBox">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>10</y>
+      <width>460</width>
+      <height>150</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>特殊功能</string>
+    </property>
+    <widget class="QPushButton" name="FunBtn_10">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>100</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:20px;
+font-family:songti;</string>
+     </property>
+     <property name="text">
+      <string>僵尸放置</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="L1_4">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>60</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:20px;
+font-family:songti;</string>
+     </property>
+     <property name="text">
+      <string>僵尸选择</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="FunBtn_09">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>100</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:20px;
+font-family:songti;</string>
+     </property>
+     <property name="text">
+      <string>植物种植</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="L1_3">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>20</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:20px;
+font-family:songti;</string>
+     </property>
+     <property name="text">
+      <string>植物选择</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="YComBox">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>20</y>
+       <width>50</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="ZombiesComBox">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>60</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="L1_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>60</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:20px;
+font-family:songti;</string>
+     </property>
+     <property name="text">
+      <string>列</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="L1">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:20px;
+font-family:songti;</string>
+     </property>
+     <property name="text">
+      <string>行</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="XComBox">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>60</y>
+       <width>50</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>7</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="PlantsComBox">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>20</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="Menu">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="StartMenu">
+    <property name="title">
+     <string>开始</string>
+    </property>
+    <addaction name="InjectAction"/>
+    <addaction name="UnloadAction"/>
+   </widget>
+   <addaction name="StartMenu"/>
+  </widget>
+  <action name="InjectAction">
+   <property name="text">
+    <string>注入</string>
+   </property>
+  </action>
+  <action name="UnloadAction">
+   <property name="text">
+    <string>卸载</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

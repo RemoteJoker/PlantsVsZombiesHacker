@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="46">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"阳光"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+355E0C</Address>
+      <Offsets>
+        <Offset>5578</Offset>
+        <Offset>868</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"博士血量"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+355E0C</Address>
+      <Offsets>
+        <Offset>C8</Offset>
+        <Offset>A8</Offset>
+        <Offset>868</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"卡槽数量"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+355E0C</Address>
+      <Offsets>
+        <Offset>0x24</Offset>
+        <Offset>0x15C</Offset>
+        <Offset>0x868</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>12</ID>
+      <Description>"数据区起点"</Description>
+      <LastState Value="889647784" RealAddress="349DE208"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>349DE208</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>14</ID>
+      <Description>"关卡ID"</Description>
+      <LastState Value="0" RealAddress="0288A8E4"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+355E0C</Address>
+      <Offsets>
+        <Offset>91C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>16</ID>
+      <Description>"金币"</Description>
+      <LastState Value="49867" RealAddress="1D7E4B58"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+355E0C</Address>
+      <Offsets>
+        <Offset>50</Offset>
+        <Offset>950</Offset>
+      </Offsets>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>
