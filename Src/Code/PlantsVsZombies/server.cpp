@@ -20,7 +20,7 @@ Server::Server() {
 
             // 连接断开信号
             connect(g_local_socket, &QLocalSocket::disconnected, [=]() {
-                qDebug() << "客户端断开连接";
+                //"客户端断开连接"
                 g_local_socket = nullptr;
                 //t_status = false;可反复连接
             });
@@ -69,59 +69,59 @@ void Server::RecRequest(quint8 v_control_type){
     }break;
     case End:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = End;
     }break;
     case Sun:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Sun;
     }break;
     case Cold:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Cold;
     }break;
     case Tree:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Tree;
     }break;
     case Gold:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Gold;
     }break;
     case Kill:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Kill;
     }break;
     case Bomb:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Bomb;
     }break;
     case PlantsHealth:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = PlantsHealth;
     }break;
     case ZombiesHealth:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = ZombiesHealth;
     }break;
     case Look:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Look;
     }break;
     case PlantsSet:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = PlantsSet;
     }break;
     case ZombiesSet:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = ZombiesSet;
     }break;
     case Speed:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Speed;
     }break;
     case Driver:
     {
-        v_client_data.str_id = Start;
+        v_client_data.str_id = Driver;
     }break;
     default:{}break;
     }
