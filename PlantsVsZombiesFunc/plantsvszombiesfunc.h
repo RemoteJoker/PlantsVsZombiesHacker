@@ -1,8 +1,0 @@
-#ifndef PLANTSVSZOMBIESFUNC_H
-#define PLANTSVSZOMBIESFUNC_H
-
-#include <Windows.h>
-
-DWORD WINAPI CheatMain(LPVOID lpParameter);
-
-#endif // PLANTSVSZOMBIESFUNC_H

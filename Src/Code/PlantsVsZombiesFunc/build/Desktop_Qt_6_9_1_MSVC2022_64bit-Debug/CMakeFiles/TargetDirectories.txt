@@ -1,0 +1,5 @@
+C:/Users/Remot/Qt/PlantsVsZombiesFunc/build/Desktop_Qt_6_9_1_MSVC2022_64bit-Debug/CMakeFiles/PlantsVsZombiesFunc.dir
+C:/Users/Remot/Qt/PlantsVsZombiesFunc/build/Desktop_Qt_6_9_1_MSVC2022_64bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Remot/Qt/PlantsVsZombiesFunc/build/Desktop_Qt_6_9_1_MSVC2022_64bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Remot/Qt/PlantsVsZombiesFunc/build/Desktop_Qt_6_9_1_MSVC2022_64bit-Debug/CMakeFiles/PlantsVsZombiesFunc_autogen_timestamp_deps.dir
+C:/Users/Remot/Qt/PlantsVsZombiesFunc/build/Desktop_Qt_6_9_1_MSVC2022_64bit-Debug/CMakeFiles/PlantsVsZombiesFunc_autogen.dir

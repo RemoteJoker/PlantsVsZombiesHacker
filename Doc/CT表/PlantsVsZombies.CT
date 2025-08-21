@@ -39,7 +39,6 @@
     <CheatEntry>
       <ID>12</ID>
       <Description>"数据区起点"</Description>
-      <LastState Value="889647784" RealAddress="349DE208"/>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>4 Bytes</VariableType>
       <Address>349DE208</Address>
@@ -47,7 +46,6 @@
     <CheatEntry>
       <ID>14</ID>
       <Description>"关卡ID"</Description>
-      <LastState Value="0" RealAddress="0288A8E4"/>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>4 Bytes</VariableType>
       <Address>PlantsVsZombies.exe+355E0C</Address>
@@ -58,12 +56,22 @@
     <CheatEntry>
       <ID>16</ID>
       <Description>"金币"</Description>
-      <LastState Value="49867" RealAddress="1D7E4B58"/>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>4 Bytes</VariableType>
       <Address>PlantsVsZombies.exe+355E0C</Address>
       <Offsets>
         <Offset>50</Offset>
+        <Offset>950</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>18</ID>
+      <Description>"智慧树"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+355E0C</Address>
+      <Offsets>
+        <Offset>11C</Offset>
         <Offset>950</Offset>
       </Offsets>
     </CheatEntry>
