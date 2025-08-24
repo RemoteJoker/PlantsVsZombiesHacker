@@ -3,40 +3,38 @@
 #include <Windows.h>
 
 extern GlobalData* g_global_data;
+static HANDLE g_server_pipe;
+static LPCWSTR g_pipe_name = L"\\\\.\\pipe\\PVZ";
 
 Server::Server() {
     t_status = true;
-    g_local_server = new QLocalServer();
-    g_local_socket = new QLocalSocket();
-    g_local_server->listen("PVZ");
-    connect(g_local_server,&QLocalServer::newConnection,this,[=](){
-        if(g_local_server->hasPendingConnections()){
-            g_local_socket = g_local_server->nextPendingConnection();
-            connect(g_local_socket, &QLocalSocket::readyRead, [=]() {
-                if (g_local_socket && g_local_socket->bytesAvailable() > 0) {
-                    Core(g_local_socket->readAll());
-                }
-            });
-
-            // 连接断开信号
-            connect(g_local_socket, &QLocalSocket::disconnected, [=]() {
-                //"客户端断开连接"
-                g_local_socket = nullptr;
-                //t_status = false;可反复连接
-            });
-        }
-    });
+    g_server_pipe = CreateNamedPipe(
+                g_pipe_name,                     // 管道名称
+                PIPE_ACCESS_DUPLEX,              // 双向访问
+                PIPE_TYPE_MESSAGE |              // 消息类型管道
+                PIPE_READMODE_MESSAGE |          // 消息读模式
+                PIPE_NOWAIT,                     // 非阻塞模式
+                PIPE_UNLIMITED_INSTANCES,        // 最大实例数
+                1024, 1024,                      // 输入输出缓冲区大小
+                0,                               // 默认超时时间
+                NULL);
 }
 
 Server::~Server() {
-    //
-    g_local_socket->deleteLater();
-    g_local_server->deleteLater();
 }
 
 void Server::run(){
-    while(t_status){
-        //接收信息
+    qDebug()<<"等待链接";
+    ConnectNamedPipe(g_server_pipe, NULL);
+    qDebug()<<"有链接";
+    // 读取客户端数据
+    while (t_status) {
+        char v_buffer[1024];
+        DWORD v_dw_read;
+        if (ReadFile(g_server_pipe, v_buffer, sizeof(v_buffer), &v_dw_read, NULL)) {
+            v_buffer[v_dw_read] = '\0';
+            Core(QByteArray::fromRawData(v_buffer, v_dw_read));
+        }
     }
 }
 
@@ -54,7 +52,7 @@ void Server::RecRequest(quint8 v_control_type){
         }else{
             emit SendServerMsg(Failed);
         }
-    }break;
+    }return;
     case UnLoadDll:
     {
         if(UnloadDll()){
@@ -62,15 +60,7 @@ void Server::RecRequest(quint8 v_control_type){
         }else{
             emit SendServerMsg(Failed);
         }
-    }break;
-    case Start:
-    {
-        v_client_data.str_id = Start;
-    }break;
-    case End:
-    {
-        v_client_data.str_id = End;
-    }break;
+    }return;
     case Sun:
     {
         v_client_data.str_id = Sun;
@@ -125,10 +115,13 @@ void Server::RecRequest(quint8 v_control_type){
     }break;
     default:{}break;
     }
-    char *v_temp_str = nullptr;
+    char v_temp_str[sizeof(ClientData)];
     memcpy(v_temp_str,&v_client_data,sizeof(ClientData));
-    g_local_socket->write(v_temp_str);
-    g_local_socket->flush();
+    // 回复客户端
+    DWORD v_bytes_read;
+    qDebug()<<"写入消息-准备"<<v_temp_str<<sizeof(ClientData);
+    WriteFile(g_server_pipe, v_temp_str, sizeof(ClientData), &v_bytes_read, NULL);
+    qDebug()<<"写入消息-完成"<<v_bytes_read;
 }
 
 void Server::Core(QByteArray v_byte_array){
@@ -144,21 +137,22 @@ void Server::Core(QByteArray v_byte_array){
 bool Server::Injectdll(){
     HWND v_hwnd = FindWindowA(nullptr,"Plants vs. Zombies");
     //打开窗口失败
-    if(!v_hwnd){
+    if(nullptr == v_hwnd){
         return false;
     }
     DWORD v_pid;
     GetWindowThreadProcessId(v_hwnd, &v_pid);
     HANDLE v_handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, v_pid);
     //打开进程失败
-    if(!v_handle){
+    if(nullptr == v_handle){
         return false;
     }
-    char *v_dll_path = g_global_data->GetDllPath().toLatin1().data();
+    QByteArray v_byte = g_global_data->GetDllPath().toUtf8();
+    const char *v_dll_path = v_byte.constData();
     LPVOID v_remote_mem = VirtualAllocEx(v_handle, nullptr, strlen(v_dll_path) + 1,
                                        MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     //申请内存失败
-    if(!v_remote_mem){
+    if(nullptr == v_remote_mem){
         CloseHandle(v_handle);
         return false;
     }
@@ -171,12 +165,11 @@ bool Server::Injectdll(){
     LPTHREAD_START_ROUTINE v_load_library = (LPTHREAD_START_ROUTINE)
         GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryA");
     //获取LoadLibrary失败
-    if (!v_load_library) {
+    if (nullptr == v_load_library) {
         VirtualFreeEx(v_handle, v_remote_mem, 0, MEM_RELEASE);
         CloseHandle(v_handle);
         return false;
     }
-
     // 创建远程线程
     HANDLE v_remote_thread = CreateRemoteThread(v_handle, nullptr, 0, v_load_library,
                                               v_remote_mem, 0, nullptr);
@@ -186,22 +179,10 @@ bool Server::Injectdll(){
         CloseHandle(v_handle);
         return false;
     }
-
-    // 等待线程执行完成
-    WaitForSingleObject(v_remote_thread, INFINITE);
-
-    // 获取线程退出码检查是否成功
-    DWORD v_exit_code;
-    GetExitCodeThread(v_remote_thread, &v_exit_code);
-
     // 清理资源
-    VirtualFreeEx(v_handle, v_remote_mem, 0, MEM_RELEASE);
+    //VirtualFreeEx(v_handle, v_remote_mem, 0, MEM_RELEASE);
     CloseHandle(v_remote_thread);
     CloseHandle(v_handle);
-
-    if (v_exit_code == 0) {
-        return false;
-    }
     return true;
 }
 

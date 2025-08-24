@@ -896,8 +896,6 @@ font-family:songti;</string>
     <addaction name="InjectAction"/>
     <addaction name="UnloadAction"/>
     <addaction name="separator"/>
-    <addaction name="StartAction"/>
-    <addaction name="EndAction"/>
    </widget>
    <addaction name="StartMenu"/>
   </widget>
@@ -909,16 +907,6 @@ font-family:songti;</string>
   <action name="UnloadAction">
    <property name="text">
     <string>卸载</string>
-   </property>
-  </action>
-  <action name="StartAction">
-   <property name="text">
-    <string>启动</string>
-   </property>
-  </action>
-  <action name="EndAction">
-   <property name="text">
-    <string>关闭</string>
    </property>
   </action>
  </widget>

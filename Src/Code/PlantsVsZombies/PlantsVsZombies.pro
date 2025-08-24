@@ -32,3 +32,8 @@ RESOURCES += \
     src.qrc
 
 RC_FILE += ico.rc
+
+msvc {
+QMAKE_CFLAGS += /utf-8
+QMAKE_CXXFLAGS += /utf-8
+}

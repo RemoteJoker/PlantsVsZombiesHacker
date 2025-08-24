@@ -1,6 +1,7 @@
 #ifndef CONFIGURE_H
 #define CONFIGURE_H
 
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QString>
@@ -8,8 +9,6 @@
 enum ControlType{
     LoadDll,//加载库
     UnLoadDll,//卸载库
-    Start,//启动功能
-    End,//关闭功能
     Sun,
     Cold,
     Tree,

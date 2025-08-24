@@ -32,8 +32,6 @@ private slots:
 
     void InjectDll();
     void UnloadDll();
-    void StartFunc();
-    void EndFunc();
     void ServerDispatch();
 
 private:

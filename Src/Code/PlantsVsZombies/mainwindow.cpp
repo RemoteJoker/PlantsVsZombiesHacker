@@ -45,19 +45,17 @@ void MainWindow::InitConnect(){
 
     connect(ui->InjectAction,&QAction::triggered,this,&MainWindow::InjectDll);
     connect(ui->UnloadAction,&QAction::triggered,this,&MainWindow::UnloadDll);
-    connect(ui->StartAction,&QAction::triggered,this,&MainWindow::StartFunc);
-    connect(ui->EndAction,&QAction::triggered,this,&MainWindow::EndFunc);
 
-    connect(ui->YComBox,&QComboBox::currentIndexChanged,this,[=](){
+    connect(ui->YComBox,&QComboBox::currentTextChanged,this,[=](){
         g_global_data->SetY(ui->YComBox->currentIndex());
     });
-    connect(ui->XComBox,&QComboBox::currentIndexChanged,this,[=](){
+    connect(ui->XComBox,&QComboBox::currentTextChanged,this,[=](){
         g_global_data->SetX(ui->XComBox->currentIndex());
     });
-    connect(ui->PlantsComBox,&QComboBox::currentIndexChanged,this,[=](){
+    connect(ui->PlantsComBox,&QComboBox::currentTextChanged,this,[=](){
         g_global_data->SetPlant(ui->PlantsComBox->currentIndex());
     });
-    connect(ui->ZombiesComBox,&QComboBox::currentIndexChanged,this,[=](){
+    connect(ui->ZombiesComBox,&QComboBox::currentTextChanged,this,[=](){
         g_global_data->SetZombie(ui->ZombiesComBox->currentIndex());
     });
     connect(ui->SpeedSlider,&QSlider::valueChanged,this,[=](int v_speed){
@@ -114,20 +112,6 @@ void MainWindow::UnloadDll(){
     }
     g_global_data->SetStatus(UNLOAD);
     emit RequestServerFunc(UnLoadDll);
-}
-
-void MainWindow::StartFunc(){
-    if(g_global_data->GetStatus() != LOAD){
-        return;
-    }
-    emit RequestServerFunc(Start);
-}
-
-void MainWindow::EndFunc(){
-    if(g_global_data->GetStatus() != LOAD){
-        return;
-    }
-    emit RequestServerFunc(End);
 }
 
 void MainWindow::ServerDispatch(){
