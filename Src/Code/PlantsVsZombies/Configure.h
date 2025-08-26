@@ -2,10 +2,17 @@
 #define CONFIGURE_H
 
 #include <QDebug>
-#include <QDir>
-#include <QFile>
+#include <QFileDialog>
 #include <QString>
 
+/*全局状态*/
+enum GlobalStatus{
+    UNINIT,
+    LOAD,
+    UNLOAD
+};
+
+/*操作类型*/
 enum ControlType{
     LoadDll,//加载库
     UnLoadDll,//卸载库
@@ -24,15 +31,10 @@ enum ControlType{
     Driver
 };
 
+/*操作结果*/
 enum ControlResult{
     Successful,//成功
     Failed//失败
-};
-
-enum GlobalStatus{
-    UNINIT,
-    LOAD,
-    UNLOAD
 };
 
 struct ClientData{
@@ -48,6 +50,10 @@ struct ClientData{
 
 struct ServerData{
     quint8 str_result;
+    ServerData()
+        : str_result(0)
+    {
+    }
 };
 
 class GlobalData

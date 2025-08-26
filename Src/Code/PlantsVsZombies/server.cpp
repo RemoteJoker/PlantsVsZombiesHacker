@@ -1,10 +1,9 @@
 #include "server.h"
-#include "Configure.h"
 #include <Windows.h>
 
 extern GlobalData* g_global_data;
-static HANDLE g_server_pipe;
-static LPCWSTR g_pipe_name = L"\\\\.\\pipe\\PVZ";
+static HANDLE g_server_pipe;//服务管道
+static LPCWSTR g_pipe_name = L"\\\\.\\pipe\\PVZ";//管道名
 
 Server::Server() {
     t_status = true;
@@ -29,11 +28,10 @@ void Server::run(){
     qDebug()<<"有链接";
     // 读取客户端数据
     while (t_status) {
-        char v_buffer[1024];
+        ServerData v_data;
         DWORD v_dw_read;
-        if (ReadFile(g_server_pipe, v_buffer, sizeof(v_buffer), &v_dw_read, NULL)) {
-            v_buffer[v_dw_read] = '\0';
-            Core(QByteArray::fromRawData(v_buffer, v_dw_read));
+        if (ReadFile(g_server_pipe, &v_data, sizeof(ServerData), &v_dw_read, NULL)) {
+            FuncDispatch(v_data);
         }
     }
 }
@@ -124,10 +122,8 @@ void Server::RecRequest(quint8 v_control_type){
     qDebug()<<"写入消息-完成"<<v_bytes_read;
 }
 
-void Server::Core(QByteArray v_byte_array){
-    char *v_temp_str = v_byte_array.data();
-    ServerData *v_server_data = (ServerData*)v_temp_str;
-    if(v_server_data->str_result == Successful){
+void Server::FuncDispatch(ServerData v_data){
+    if(v_data.str_result == Successful){
         emit SendServerMsg(Successful);
     }else{
         emit SendServerMsg(Failed);
@@ -138,6 +134,7 @@ bool Server::Injectdll(){
     HWND v_hwnd = FindWindowA(nullptr,"Plants vs. Zombies");
     //打开窗口失败
     if(nullptr == v_hwnd){
+        emit SendServerMsg(Failed);
         return false;
     }
     DWORD v_pid;
@@ -145,6 +142,7 @@ bool Server::Injectdll(){
     HANDLE v_handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, v_pid);
     //打开进程失败
     if(nullptr == v_handle){
+        emit SendServerMsg(Failed);
         return false;
     }
     QByteArray v_byte = g_global_data->GetDllPath().toUtf8();
@@ -154,12 +152,14 @@ bool Server::Injectdll(){
     //申请内存失败
     if(nullptr == v_remote_mem){
         CloseHandle(v_handle);
+        emit SendServerMsg(Failed);
         return false;
     }
     //写入DLL失败
     if (!WriteProcessMemory(v_handle, v_remote_mem, v_dll_path, strlen(v_dll_path) + 1, nullptr)) {
         VirtualFreeEx(v_handle, v_remote_mem, 0, MEM_RELEASE);
         CloseHandle(v_handle);
+        emit SendServerMsg(Failed);
         return false;
     }
     LPTHREAD_START_ROUTINE v_load_library = (LPTHREAD_START_ROUTINE)
@@ -168,6 +168,7 @@ bool Server::Injectdll(){
     if (nullptr == v_load_library) {
         VirtualFreeEx(v_handle, v_remote_mem, 0, MEM_RELEASE);
         CloseHandle(v_handle);
+        emit SendServerMsg(Failed);
         return false;
     }
     // 创建远程线程
@@ -177,6 +178,7 @@ bool Server::Injectdll(){
     if (!v_remote_thread) {
         VirtualFreeEx(v_handle, v_remote_mem, 0, MEM_RELEASE);
         CloseHandle(v_handle);
+        emit SendServerMsg(Failed);
         return false;
     }
     // 清理资源

@@ -2,15 +2,23 @@
 <CheatTable CheatEngineTableVersion="46">
   <CheatEntries>
     <CheatEntry>
-      <ID>1</ID>
-      <Description>"阳光"</Description>
+      <ID>14</ID>
+      <Description>"关卡ID"</Description>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>4 Bytes</VariableType>
       <Address>PlantsVsZombies.exe+355E0C</Address>
       <Offsets>
-        <Offset>5578</Offset>
-        <Offset>868</Offset>
+        <Offset>91C</Offset>
       </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>22</ID>
+      <Description>"冷却代码"</Description>
+      <LastState Value="167E" RealAddress="0049CE02"/>
+      <ShowAsHex>1</ShowAsHex>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>2 Bytes</VariableType>
+      <Address>0049CE02</Address>
     </CheatEntry>
     <CheatEntry>
       <ID>3</ID>
@@ -37,21 +45,133 @@
       </Offsets>
     </CheatEntry>
     <CheatEntry>
-      <ID>12</ID>
-      <Description>"数据区起点"</Description>
-      <ShowAsSigned>0</ShowAsSigned>
-      <VariableType>4 Bytes</VariableType>
-      <Address>349DE208</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>14</ID>
-      <Description>"关卡ID"</Description>
+      <ID>18</ID>
+      <Description>"智慧树"</Description>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>4 Bytes</VariableType>
       <Address>PlantsVsZombies.exe+355E0C</Address>
       <Offsets>
-        <Offset>91C</Offset>
+        <Offset>11C</Offset>
+        <Offset>950</Offset>
       </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>20</ID>
+      <Description>"植物种植固定偏移"</Description>
+      <ShowAsHex>1</ShowAsHex>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+355E0C</Address>
+      <Offsets>
+        <Offset>868</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>19</ID>
+      <Description>"植物种植脚本"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+alloc(g_Thread,10)
+createThread(g_Thread)
+
+g_Thread:
+pushad
+mov ecx,[755E0C]
+mov ecx,[ecx+868]
+push -1
+push 0x19
+mov eax,0
+push 3
+push ecx
+call 00418D70
+popad
+ret
+ 
+ 
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>26</ID>
+      <Description>"僵尸种植脚本"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+alloc(g_Thread,10)
+createThread(g_Thread)
+
+g_Thread:
+pushad
+mov edx,[755E0C]
+mov edx,[edx+868]
+mov edx,[edx+178]
+push 0x6
+push 0x9
+mov eax,0
+mov ecx,edx
+call 00435390
+popad
+ret
+ 
+ 
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>25</ID>
+      <Description>"罐子数量"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+355E0C</Address>
+      <Offsets>
+        <Offset>144</Offset>
+        <Offset>868</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>24</ID>
+      <Description>"透视"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+mov [ebp+4C],32
+
+originalcode:
+cmp dword ptr [ebp+4C],00
+jng PlantsVsZombies.exe+59553
+
+exit:
+jmp returnhere
+
+"PlantsVsZombies.exe"+59214:
+jmp newmem
+nop 5
+returnhere:
+
+
+ 
+ 
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+dealloc(newmem)
+"PlantsVsZombies.exe"+59214:
+db 83 7D 4C 00 0F 8E 35 03 00 00
+//cmp dword ptr [ebp+4C],00
+//jng PlantsVsZombies.exe+59553
+</AssemblerScript>
     </CheatEntry>
     <CheatEntry>
       <ID>16</ID>
@@ -65,14 +185,14 @@
       </Offsets>
     </CheatEntry>
     <CheatEntry>
-      <ID>18</ID>
-      <Description>"智慧树"</Description>
+      <ID>1</ID>
+      <Description>"阳光"</Description>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>4 Bytes</VariableType>
       <Address>PlantsVsZombies.exe+355E0C</Address>
       <Offsets>
-        <Offset>11C</Offset>
-        <Offset>950</Offset>
+        <Offset>5578</Offset>
+        <Offset>868</Offset>
       </Offsets>
     </CheatEntry>
   </CheatEntries>

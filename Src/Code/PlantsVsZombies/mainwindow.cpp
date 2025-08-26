@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include "server.h"
-#include "Configure.h"
+#include <QDir>
+#include <QMessageBox>
 
 extern GlobalData* g_global_data;
 
@@ -99,6 +101,7 @@ void MainWindow::InjectDll(){
     //注入DLL
     QString v_dll_path = QFileDialog::getOpenFileName(nullptr,"加载库","C:/","(*.dll)");
     if(v_dll_path==""){
+        QMessageBox::warning(nullptr,"警告","选取文件错误");
         return;
     }
     g_global_data->SetDllPath(v_dll_path);
@@ -108,6 +111,7 @@ void MainWindow::InjectDll(){
 void MainWindow::UnloadDll(){
     //卸载DLL
     if(g_global_data->GetStatus() != LOAD){
+        QMessageBox::warning(nullptr,"警告","驱动未加载");
         return;
     }
     g_global_data->SetStatus(UNLOAD);

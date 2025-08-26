@@ -5,6 +5,14 @@
 #include <windows.h>
 #include <iostream>
 #include <string>
+#include "include/detours.h"
+
+#define GAMEBASEMENT 0x00400000
+
+// 原始函数指针
+extern BOOL(WINAPI* TrueQueryPerformanceCounter)(LARGE_INTEGER*);
+extern BOOL(WINAPI* TrueQueryPerformanceFrequency)(LARGE_INTEGER*);
+extern DWORD(WINAPI* TrueGetTickCount)(void);
 
 enum ControlType {
     LoadDll,
@@ -52,9 +60,6 @@ struct ServerData {
 //初始化游戏作弊
 VOID InitGameCheat();
 
-//功能开启
-VOID SetEnable(UINT8 v_index,BOOL v_status);
-
 //卸载函数
 VOID FuncUnLoadDll();
 
@@ -88,6 +93,20 @@ VOID FuncDriver();
 /*游戏功能--结束*/
 
 VOID FuncDispatch(ClientData v_data);//功能派遣函数
+
+VOID ReturnControlResult(UINT result);//返回操作结果
+
+VOID SetSpeed(int speedPercent);//设置变速
+
+BOOL WINAPI HookedQueryPerformanceCounter(LARGE_INTEGER* lpPerformanceCount);
+
+BOOL WINAPI HookedQueryPerformanceFrequency(LARGE_INTEGER* lpFrequency);
+
+DWORD WINAPI HookedGetTickCount(void);
+
+DWORD WINAPI AsmThreadFunctionPlant(LPVOID lpParam);
+
+DWORD WINAPI AsmThreadFunctionZombie(LPVOID lpParam);
 
 //主循环
 DWORD WINAPI MainLoop(LPVOID lpParam);

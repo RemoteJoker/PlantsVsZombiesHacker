@@ -11,7 +11,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
     {
-        MessageBox(nullptr, L"加载成功", L"标题", 0);
         CreateThread(nullptr, 0, MainLoop, nullptr, 0, nullptr);
         break;
     }

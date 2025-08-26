@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "server.h"
-#include "Configure.h"
 #include <QApplication>
 
 GlobalData* g_global_data = GlobalData::instance();
@@ -18,7 +17,7 @@ int main(int argc, char *argv[])
     s->start();
     //启动主线程
     MainWindow w(s);
-    w.setStyleSheet(v_str_file);
+    w.setStyleSheet(v_str_file);//加载样式文件
     w.show();
     return a.exec();
 }
