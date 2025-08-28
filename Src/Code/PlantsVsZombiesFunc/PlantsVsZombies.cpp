@@ -21,9 +21,9 @@ DWORD(WINAPI* TrueGetTickCount)(void) = nullptr;
 
 VOID InitGameCheat() {
     g_current_process = GetCurrentProcess();//获取进程ID
-    g_client_pipe = CreateFile(g_client_pipe_name,GENERIC_READ|GENERIC_WRITE,0,NULL,OPEN_EXISTING,0,NULL);
+    g_client_pipe = CreateFile(g_client_pipe_name,GENERIC_READ|GENERIC_WRITE,0,nullptr,OPEN_EXISTING,0,nullptr);
     DWORD v_mode = PIPE_READMODE_MESSAGE;
-    SetNamedPipeHandleState(g_client_pipe, &v_mode, NULL, NULL);
+    SetNamedPipeHandleState(g_client_pipe, &v_mode, nullptr, nullptr);
 
     InitializeCriticalSection(&g_cs);
     // 安装Detours Hook
@@ -36,7 +36,7 @@ VOID InitGameCheat() {
     DetourAttach(&(PVOID&)TrueGetTickCount, HookedGetTickCount);
     if (DetourTransactionCommit() != NO_ERROR) {
         // Hook失败处理
-        MessageBoxA(NULL, "Failed to install hooks!", "Error", MB_ICONERROR);
+        MessageBoxA(nullptr, "Failed to install hooks!", "Error", MB_ICONERROR);
     }
 }
 
@@ -65,7 +65,7 @@ VOID FuncSun() {
         sizeof(DWORD),&bytes_read);
     current_pointer = value + 0x5578;  // 计算第三级地址
     /*std::wstring str2 = std::to_wstring(current_pointer);
-    MessageBox(NULL, str2.c_str(), L"标题", MB_ICONERROR);*/
+    MessageBox(nullptr, str2.c_str(), L"标题", MB_ICONERROR);*/
     // 写入最终的目标值
     DWORD target_value = 0x2710;  // 这个初始值会被覆盖
     WriteProcessMemory(g_current_process,(LPVOID)current_pointer,&target_value,
@@ -147,22 +147,22 @@ VOID FuncKill() {
         sizeof(DWORD), &bytes_read);
     current_pointer = value + 0xC8;  // 计算第四级地址
     // 写入最终的目标值
-    DWORD target_value = 0xA;
+    DWORD target_value = 0x1;
     WriteProcessMemory(g_current_process, (LPVOID)current_pointer, &target_value,
         sizeof(DWORD), &bytes_read);
     ReturnControlResult(Successful);
 }
 
 VOID FuncBomb() {
-    DWORD v_x, v_y, v_plant;
-    v_x = 0;
-    v_y = 0;
-    v_plant = 2;
+    g_y = 0;
+    g_x = 0;
+    g_plant = 2;
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 5; j++) {
-            v_x = i;
-            v_y = j;
-            CreateThread(NULL, 0, AsmThreadFunctionPlant, NULL, 0, NULL);
+            g_x = i;
+            g_y = j;
+            AsmThreadFunctionPlant();
+            Sleep(500);
         }
     }
     ReturnControlResult(Successful);
@@ -170,11 +170,7 @@ VOID FuncBomb() {
 
 VOID FuncPlantsHealth() {
     DWORD current_pointer = GAMEBASEMENT + 0x14BA6D;  // 第一级地址
-    BYTE value;
     SIZE_T bytes_read;
-    // 读取第一级指针
-    ReadProcessMemory(g_current_process, (LPCVOID)current_pointer, &value,
-        sizeof(BYTE), &bytes_read);
     DWORD v_old_protect, temp_protect;
     VirtualProtectEx(g_current_process, (LPVOID)current_pointer,
         sizeof(BYTE), PAGE_EXECUTE_READWRITE, &v_old_protect);
@@ -189,11 +185,7 @@ VOID FuncPlantsHealth() {
 
 VOID FuncZombiesHealth() {
     DWORD current_pointer = GAMEBASEMENT + 0x14CD8C;  // 第一级地址
-    BYTE value[6];
     SIZE_T bytes_read;
-    // 读取第一级指针
-    ReadProcessMemory(g_current_process, (LPCVOID)current_pointer, &value,
-        sizeof(BYTE)*6, &bytes_read);
     DWORD v_old_protect, temp_protect;
     VirtualProtectEx(g_current_process, (LPVOID)current_pointer,
         sizeof(BYTE) * 6, PAGE_EXECUTE_READWRITE, &v_old_protect);
@@ -208,11 +200,7 @@ VOID FuncZombiesHealth() {
 
 VOID FuncLook() {
     DWORD current_pointer = GAMEBASEMENT + 0x59C1C;  // 第一级地址
-    BYTE value[3];
     SIZE_T bytes_read;
-    // 读取第一级指针
-    ReadProcessMemory(g_current_process, (LPCVOID)current_pointer, &value,
-        sizeof(BYTE) * 3, &bytes_read);
     DWORD v_old_protect, temp_protect;
     VirtualProtectEx(g_current_process, (LPVOID)current_pointer,
         sizeof(BYTE) * 3, PAGE_EXECUTE_READWRITE, &v_old_protect);
@@ -226,12 +214,12 @@ VOID FuncLook() {
 }
 
 VOID FuncPlantsSet() {
-    CreateThread(NULL, 0, AsmThreadFunctionPlant, NULL, 0, NULL);
+    AsmThreadFunctionPlant();
     ReturnControlResult(Successful);
 }
 
 VOID FuncZombiesSet() {
-    CreateThread(NULL, 0, AsmThreadFunctionZombie, NULL, 0, NULL);
+    AsmThreadFunctionZombie();
     ReturnControlResult(Successful);
 }
 
@@ -273,7 +261,7 @@ VOID ReturnControlResult(UINT result) {
     char v_temp_str[sizeof(ClientData)];
     memcpy(v_temp_str, &v_data, sizeof(ClientData));
     DWORD v_bytes_read;
-    WriteFile(g_client_pipe, v_temp_str, sizeof(ServerData), &v_bytes_read, NULL);
+    WriteFile(g_client_pipe, v_temp_str, sizeof(ServerData), &v_bytes_read, nullptr);
 }
 
 VOID SetSpeed(int speedPercent) {
@@ -368,48 +356,64 @@ DWORD WINAPI HookedGetTickCount(void) {
     return baseTime;
 }
 
-DWORD WINAPI AsmThreadFunctionPlant(LPVOID lpParam) {
-    DWORD v_x, v_y, v_plant;
-    v_x = g_x;
-    v_y = g_y;
-    v_plant = g_plant;
-    __asm {
-        pushad
-        mov ecx, [0x755E0C]
-        mov ecx, [ecx + 0x868]
-        push - 1
-        push v_plant
-        mov eax, v_y
-        push v_x
-        push ecx
-        mov edx, 0x00418D70
-        call edx
-        popad
-        ret
+VOID AsmThreadFunctionPlant() {
+    DWORD v_tempptr = 0x0;
+    LPVOID v_remote_mem = VirtualAllocEx(g_current_process, nullptr, 32,
+        MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    v_tempptr = 0x418D70-0x5-0x19- (DWORD)v_remote_mem;
+    BYTE v_0 = (v_tempptr >> 0) & 0xFF;
+    BYTE v_1 = (v_tempptr >> 8) & 0xFF;
+    BYTE v_2 = (v_tempptr >> 16) & 0xFF;
+    BYTE v_3 = (v_tempptr >> 24) & 0xFF;
+    CHAR v_code[] = {
+        0x60,
+        0x8B,0x0D,0x0C,0x5E,0x75,0x00,
+        0x8B,0x89,0x68,0x08,0x00,0x00,
+        0x6A,0xFF,
+        0x6A,g_plant,
+        0xB8,g_y,0x0,0x0,0x0,
+        0x6A,g_x,
+        0x51,
+        0xE8,v_0,v_1,v_2,v_3,
+        0x61,
+        0xC3
     };
-    return 0;
+    if (v_remote_mem != 0) {
+        WriteProcessMemory(g_current_process, v_remote_mem, v_code, 32, nullptr);
+        CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)v_remote_mem, nullptr, 0, nullptr);
+        VirtualFree(v_remote_mem, 0, MEM_RELEASE);
+    }
+    return;
 }
 
-DWORD WINAPI AsmThreadFunctionZombie(LPVOID lpParam) {
-    DWORD v_x, v_y, v_zombie;
-    v_x = g_x;
-    v_y = g_y;
-    v_zombie = g_zombie;
-    __asm {
-        pushad
-        mov edx, [0x755E0C]
-        mov edx, [edx + 0x868]
-        mov edx, [edx + 0x178]
-        push v_x
-        push v_zombie
-        mov eax, v_y
-        mov ecx, edx
-        mov edx, 0x00435390
-        call edx
-        popad
-        ret
+VOID AsmThreadFunctionZombie() {
+    DWORD v_tempptr = 0x0;
+    LPVOID v_remote_mem = VirtualAllocEx(g_current_process, nullptr, 37,
+        MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    v_tempptr = 0x435390 - 0x5 - 0x1E - (DWORD)v_remote_mem;
+    BYTE v_0 = (v_tempptr >> 0) & 0xFF;
+    BYTE v_1 = (v_tempptr >> 8) & 0xFF;
+    BYTE v_2 = (v_tempptr >> 16) & 0xFF;
+    BYTE v_3 = (v_tempptr >> 24) & 0xFF;
+    CHAR v_code[] = {
+        0x60,
+        0x8B,0x15,0x0C,0x5E,0x75,0x00,
+        0x8B,0x92,0x68,0x08,0x00,0x00,
+        0x8B,0x92,0x78,0x01,0x00,0x00,
+        0x6A,g_x,
+        0x6A,g_zombie,
+        0xB8,g_y,0x0,0x0,0x0,
+        0x8B,0xCA,
+        0xE8,v_0,v_1,v_2,v_3,
+        0x61,
+        0xC3
     };
-    return 0;
+    if (v_remote_mem != 0) {
+        WriteProcessMemory(g_current_process, v_remote_mem, v_code, 37, nullptr);
+        CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)v_remote_mem, nullptr, 0, nullptr);
+        VirtualFree(v_remote_mem, 0, MEM_RELEASE);
+    }
+    return;
 }
 
 DWORD WINAPI MainLoop(LPVOID lpParam) {
@@ -417,7 +421,7 @@ DWORD WINAPI MainLoop(LPVOID lpParam) {
     while (g_status) {
         ClientData v_data;
         DWORD v_bytesRead;
-        if (ReadFile(g_client_pipe, &v_data,sizeof(ClientData),&v_bytesRead,NULL)) {
+        if (ReadFile(g_client_pipe, &v_data,sizeof(ClientData),&v_bytesRead,nullptr)) {
             if (v_bytesRead == sizeof(ClientData)) {
                 FuncDispatch(v_data);
             }

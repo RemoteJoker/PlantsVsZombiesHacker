@@ -90,6 +90,9 @@ VOID FuncSpeed();
 
 VOID FuncDriver();
 
+VOID AsmThreadFunctionPlant();
+
+VOID AsmThreadFunctionZombie();
 /*游戏功能--结束*/
 
 VOID FuncDispatch(ClientData v_data);//功能派遣函数
@@ -103,10 +106,6 @@ BOOL WINAPI HookedQueryPerformanceCounter(LARGE_INTEGER* lpPerformanceCount);
 BOOL WINAPI HookedQueryPerformanceFrequency(LARGE_INTEGER* lpFrequency);
 
 DWORD WINAPI HookedGetTickCount(void);
-
-DWORD WINAPI AsmThreadFunctionPlant(LPVOID lpParam);
-
-DWORD WINAPI AsmThreadFunctionZombie(LPVOID lpParam);
 
 //主循环
 DWORD WINAPI MainLoop(LPVOID lpParam);
